@@ -79,9 +79,9 @@ function s:Add()
    "echom l:tmpfile
    silent! call writefile(getline(1, "$"), fnameescape(l:tmpfile), '')
    if g:VerilogModeTrace
-	   exec "silent !emacs -batch --no-site-file -l ". g:VerilogModeFile . " " . shellescape(l:tmpfile, 1) . " -f verilog-batch-auto"
+	   exec "silent !emacs -batch --no-site-file -l ". g:VerilogModeFile . " " . shellescape(l:tmpfile, 1) . " -f verilog-batch-inject-auto"
    else
-	   exec "silent !emacs -batch --no-site-file -l ". g:VerilogModeFile . " " . shellescape(l:tmpfile, 1) . " -f verilog-batch-auto 2> /dev/null"
+	   exec "silent !emacs -batch --no-site-file -l ". g:VerilogModeFile . " " . shellescape(l:tmpfile, 1) . " -f verilog-batch-inject-auto 2> /dev/null"
    endif
    let l:newcontent = readfile(fnameescape(l:tmpfile), '')
    
