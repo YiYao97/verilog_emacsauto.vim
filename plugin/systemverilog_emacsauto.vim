@@ -79,22 +79,24 @@ function s:Add()
    "echom l:tmpfile
    silent! call writefile(getline(1, "$"), fnameescape(l:tmpfile), '')
    if g:VerilogModeTrace
-	   exec "silent !emacs -batch --no-site-file -l ". g:VerilogModeFile . " " . shellescape(l:tmpfile, 1) . " -f verilog-batch-inject-auto"
+	   exec "silent !emacs -batch --no-site-file -l ". g:VerilogModeFile . " " . shellescape(l:tmpfile, 1) . " -f verilog-batch-auto"
    else
-	   exec "silent !emacs -batch --no-site-file -l ". g:VerilogModeFile . " " . shellescape(l:tmpfile, 1) . " -f verilog-batch-inject-auto 2> /dev/null"
+	   exec "silent !emacs -batch --no-site-file -l ". g:VerilogModeFile . " " . shellescape(l:tmpfile, 1) . " -f verilog-batch-auto 2> /dev/null"
    endif
    let l:newcontent = readfile(fnameescape(l:tmpfile), '')
-   
+
    if &expandtab
       retab
       let &tabstop=s:save_tabstop
    endif
-   "call deletebufline('.', 1, '$')
-   let l:i=1
+   call deletebufline('.', 1, '$')
    call setline(1, l:newcontent)
    exec "silent !rm " . shellescape(l:tmpfile)
    w! %
    exec 'redraw!'
+   if has('nvim')
+       silent! lua vim.lsp.buf.format()
+   endif
 endfunction
 
 " Delete function
