@@ -92,11 +92,11 @@ function s:Add()
    call deletebufline('.', 1, '$')
    call setline(1, l:newcontent)
    exec "silent !rm " . shellescape(l:tmpfile)
-   w! %
-   exec 'redraw!'
    if has('nvim')
        silent! lua vim.lsp.buf.format()
    endif
+   w! %
+   exec 'redraw!'
 endfunction
 
 " Delete function
